@@ -1,0 +1,161 @@
+<!DOCTYPE html><html><head>
+
+    <meta charset="utf-8">    
+  
+
+  <title>агрегатные состояния воды</title>
+  <link rel="shortcut icon" href="user.ico">  
+<script type="text/javascript" src="js/nastavRozmeryObrazovky.js"></script>   
+    
+<script>  
+    const min_vyska_menu = 22;
+    var vyska_menu = 22;
+    var vyskaObrazovky = 0;
+ 
+   var casovac;
+  window.onload=spustitPriStartu();
+  function spustitPriStartu() {
+       nastavRozmeryObrazovky();
+       setCookie("language", window.navigator.userLanguage || window.navigator.language);
+       
+           casovac = setInterval(myTimer, 100);
+          setTimeout(function() { 
+              document.getElementById("odkazPred").style.opacity = "1";
+              document.getElementById("odkazPo").style.opacity = "1"; 
+              document.getElementById("odkazPred").style.pointerEvents = "auto";
+              document.getElementById("odkazPo").style.pointerEvents = "auto"; 
+              clearInterval(casovac);           
+          }, 5000);
+          function myTimer() {
+              var o = parseFloat(document.getElementById("odkazPred").style.opacity);
+              o = o + (100/5000)/2;
+              document.getElementById("odkazPred").style.opacity = o.toString();
+              document.getElementById("odkazPo").style.opacity = o.toString();
+              //console.log(o);
+              if (o >= 1) {
+                  clearInterval(casovac);
+              }
+          }           
+       
+  }  
+
+  function vlozitFlash(flash, language) {
+    var div_vlozit = document.getElementById("div");    
+    data_vlozit = "<iframe id=\"iframe3\" src=\"./canvas/" + flash + "_Canvas.html?l=" + language + "\" style=\"height:calc(100vh - 22px); width:calc(0.625*(100vh - 22px));  text-align:left; border: 1px silver solid;\"></iframe>";       
+    div_vlozit.style.overflow='hidden';       
+    div_vlozit.innerHTML = data_vlozit; 
+    nastavVyskuMenu(0);   
+  }
+
+  function ukazInfo() {
+    if (document.getElementById("info").style.display == "none") {
+        document.getElementById("info").style.display = "block";
+    } else {
+       document.getElementById("info").style.display = "none";
+    }    
+  }
+  
+  function ukazDekuji() {
+    if (document.getElementById("dekuji").style.display == "none") {
+        document.getElementById("dekuji").style.display = "block";
+    } else {
+       document.getElementById("dekuji").style.display = "none";
+    }    
+  }  
+  
+  function ukazNazev() {
+    if (document.getElementById("nazev").style.display == "none") {
+        document.getElementById("nazev").style.display = "block";
+    } else {
+       document.getElementById("nazev").style.display = "none";
+    }    
+  }  
+
+  function nastavVyskuMenu(zmena) {
+    if (zmena == 1) {
+      vyska_menu = vyska_menu*1.5;
+      if (vyskaObrazovky == 0) {
+         vyskaObrazovky = Get_Cookie("vyskaObrazovky");
+      }       
+      if (vyska_menu > 9*vyskaObrazovky/10) {
+          vyska_menu = 9*vyskaObrazovky/10;
+      }                    
+      vyska_menu = Math.round(vyska_menu);      
+    } else if (zmena == -1) {
+      vyska_menu = vyska_menu/1.5;
+      vyska_menu = Math.round(vyska_menu);
+      if (vyska_menu < min_vyska_menu) {
+          vyska_menu = min_vyska_menu;
+      }    
+    }
+    setCookie("vyska_menu", vyska_menu.toString());
+    setCookie("language", window.navigator.userLanguage || window.navigator.language);    
+    var tabulka = document.getElementById("tabulka");
+    var iframe1 = document.getElementById("iframe1");
+    var iframe2 = document.getElementById("iframe2");
+    var iframe3 = document.getElementById("iframe3");
+    var flash = document.getElementById("flash");
+    //location.reload();
+    tabulka.style.width = "calc(1.6*(100vh - " + vyska_menu.toString() + "px) + 320px)";
+
+    if (!(iframe1 == null)) {
+        iframe1.style.width  = "calc(1.6*(100vh - " + vyska_menu.toString() + "px))";
+        iframe1.style.height = "calc(100vh - " + vyska_menu.toString() + "px)";    
+    } 
+    if (!(iframe2 == null)) {
+        iframe2.style.width  = "calc(0.625*(100vh - " + vyska_menu.toString() + "px))";
+        iframe2.style.height = "calc(100vh - " + vyska_menu.toString() + "px)";
+    }
+    if (!(iframe3 == null)) {
+        iframe3.style.width  = "calc(0.625*(100vh - " + vyska_menu.toString() + "px))";
+        iframe3.style.height = "calc(100vh - " + vyska_menu.toString() + "px)";    
+    }              
+    if (!(flash == null)) {    
+        flash.style.height = "100vh - " + vyska_menu.toString() + "px)";
+    }  
+  } 
+ 
+                
+</script>  
+
+<style type="text/css">
+
+body{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: Verdana, Arial, Helvetica, sans-serif; font-size:18px;  
+  overflow-y: hidden; 
+/*  overflow: hidden;*/
+  
+background-color: black;
+  
+}
+a {text-decoration: none;}
+img {border: 0;}
+</style>
+
+       
+  </head>
+  <body>
+<table id="tablka" style="width:100%; height:100vh; text-align:left; border-collapse: collapse; background-color:#303030;">
+<tbody><tr>
+<td style="width:160px; vertical-align:top; text-align:center;">
+<table style>
+<tbody><tr>
+<td style="text-align:left;">
+</td>
+</tbody></table>
+
+</td>
+<td style="vertical-align:top; text-align:center; background-color:black;">
+<iframe id="iframe1" src="mf_voda_Canvas.html" style="height:calc(100vh - 22px); width:calc(1.6*(100vh - 22px)); border: 1px silver solid;"></iframe>
+</td>
+<td style="width:160px; vertical-align:top;  text-align:center;">
+<table style>
+<tbody><tr>
+<td style="text-align:center;"></table>
+
+</div>        
+  
+</body></html>
